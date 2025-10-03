@@ -90,7 +90,7 @@
   - By default, a full blockchain rescan is initiated on the last import. Depending on
     the size of your wallet, this may cause a timeout error on the last import, which
     can be ignored as it won't affect a successful import.
-  - Set Unix timestamp at line 16 e.g. to 1356998400 for Jan 1, 2013 (or to the
+  - Set Unix timestamp at line 15 e.g. to 1356998400 for Jan 1, 2013 (or to the
     timestamp of your last import), dependent on the age of the asset to import.
   - For multi-signature addresses (both legacy and Bech32), modifications to the 
     script are required.
