@@ -14,7 +14,7 @@
 
   These platform independent wallet migration tools facilitate the migration of 
   private keys from legacy Berkeley DB (BDB) wallets to modern descriptor wallets 
-  in Bitcoin and Namecoin Core. Place the tools in the folders:
+  in Bitcoin and Namecoin Core. Place the tools in the folders (e.g. on Windows):
 
       C:\Program Files\Bitcoin\daemon
       C:\Program Files\Namecoin\daemon
@@ -116,4 +116,5 @@
   from its use or misuse!
   
 ====================================================================================
+
 
