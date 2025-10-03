@@ -26,7 +26,34 @@
 
   Prerequisites:
   -----------------
-  Download and install Python from https://www.python.org/downloads/
+  * Download and install Python from https://www.python.org/downloads/
+  * Configure RPC credentials
+
+	On a fresh installation create (otherwise edit) the file "bitcoin.conf" (for Bitcoin) resp.
+    "namecoin.conf" (for Namecoin) in the data directory with minimal content to be used on the local machine:
+
+		server=1
+		rpcallowip=127.0.0.1
+		rpcbind=127.0.0.1
+
+	This minimal configuration uses cookie authentication. Data directory locations (e.g. for Namecoin):
+
+		Windows:
+		_______
+
+			%AppData%\Namecoin
+
+
+		macOS (enable visibility with 'command chflags nohidden ~/Library' in the terminal before):
+		___________________________________________________________________________________________
+
+			~/Library/Application Support/Namecoin/
+
+
+		Linux:
+		______
+
+			$HOME/.namecoin/
 
 ====================================================================================
 
@@ -107,4 +134,3 @@
   from its use or misuse!
   
 ====================================================================================
-
