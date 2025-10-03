@@ -10,10 +10,9 @@ import os
 import sys
 import time
 
-CLI_COMMAND = "namecoin-cli" # Change to "bitcoin-cli" if using Bitcoin Core
+CLI_COMMAND = "namecoin-cli"  # Change to "bitcoin-cli" if using Bitcoin Core
 PRIVKEYS_FILE = "privkeys.txt"
-DESCRIPTOR_TYPE = "wpkh" # "pkh" for legacy addresses, "wpkh" for Bech32/SegWit
-RESCAN_TIMESTAMP = 0 # Unix timestamp 0 for full blockchain scan. Set e.g. to 1356998400 for Jan 1, 2013, or adjust to the timestamp of last import
+RESCAN_TIMESTAMP = 0  # Unix timestamp 0 for full blockchain scan. Set e.g. to 1356998400 for Jan 1, 2013, or adjust to the timestamp of last import
 BATCH_SIZE = 50
 
 def is_scanning():
@@ -31,6 +30,14 @@ def wait_for_rescan_complete():
 		print("Wallet is scanning; waiting 5 seconds...")
 		time.sleep(5)
 
+def get_descriptor_type(key):
+	if key.startswith('5'):
+		return "pkh"  # Uncompressed mainnet WIF (Bitcoin: 1xxx, Namecoin: M/Nxxx)
+	elif key.startswith(('K', 'L', 'T')):
+		return "wpkh"  # Compressed Bitcoin/Namecoin mainnet WIF (Bech32: bc1q/nc1q)
+	else:
+		raise ValueError(f"Invalid WIF prefix for key: {key[:5]}...")
+
 def main():
 	if not os.path.exists(PRIVKEYS_FILE):
 		print(f"Error: {PRIVKEYS_FILE} not found in the current directory.")
@@ -47,35 +54,39 @@ def main():
 	current_batch = []
 	for i, key in enumerate(keys):
 		print(f"\n{i+1}/{total_keys}")
-
-		desc_without_checksum = f"{DESCRIPTOR_TYPE}({key})"
 		try:
-			info_output = subprocess.check_output([CLI_COMMAND, "getdescriptorinfo", desc_without_checksum]).decode("utf-8")
-			info = json.loads(info_output)
-			checksum = info["checksum"]
-			full_desc = f"{desc_without_checksum}#{checksum}"
+			desc_type = get_descriptor_type(key)
+			desc_without_checksum = f"{desc_type}({key})"
+			try:
+				info_output = subprocess.check_output([CLI_COMMAND, "getdescriptorinfo", desc_without_checksum]).decode("utf-8")
+				info = json.loads(info_output)
+				checksum = info["checksum"]
+				full_desc = f"{desc_without_checksum}#{checksum}"
 
-			timestamp = RESCAN_TIMESTAMP if i == total_keys - 1 else "now"
-			current_batch.append({
-				"desc": full_desc,
-				"timestamp": timestamp
-			})
+				timestamp = RESCAN_TIMESTAMP if i == total_keys - 1 else "now"
+				current_batch.append({
+					"desc": full_desc,
+					"timestamp": timestamp
+				})
 
-			if len(current_batch) == BATCH_SIZE or i == total_keys - 1:
-				wait_for_rescan_complete()
-				import_json = json.dumps(current_batch)
-				subprocess.check_call([CLI_COMMAND, "importdescriptors", import_json])
-				print(f"Imported batch of {len(current_batch)} keys.")
-				current_batch = []
+				if len(current_batch) == BATCH_SIZE or i == total_keys - 1:
+					wait_for_rescan_complete()
+					import_json = json.dumps(current_batch)
+					subprocess.check_call([CLI_COMMAND, "importdescriptors", import_json])
+					print(f"Imported batch of {len(current_batch)} keys.")
+					current_batch = []
 
-		except subprocess.CalledProcessError as e:
-			print(f"Error running {CLI_COMMAND}: {e}")
-			sys.exit(1)
-		except json.JSONDecodeError:
-			print("Error parsing JSON from getdescriptorinfo.")
-			sys.exit(1)
-		except KeyError:
-			print("Checksum not found in descriptor info.")
+			except subprocess.CalledProcessError as e:
+				print(f"Error running {CLI_COMMAND}: {e}")
+				sys.exit(1)
+			except json.JSONDecodeError:
+				print("Error parsing JSON from getdescriptorinfo.")
+				sys.exit(1)
+			except KeyError:
+				print("Checksum not found in descriptor info.")
+				sys.exit(1)
+		except ValueError as e:
+			print(f"Error: {e}")
 			sys.exit(1)
 		except Exception as e:
 			print(f"Unexpected error for key {key[:5]}...: {e}")
