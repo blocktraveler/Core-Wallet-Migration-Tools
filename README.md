@@ -11,7 +11,7 @@
 
   These platform independent wallet migration tools facilitate the migration of 
   private keys from legacy Berkeley DB (BDB) wallets to modern descriptor wallets 
-  in Bitcoin and Namecoin Core. Place the tools in the folders (e.g. on Windows):
+  in Bitcoin and Namecoin Core. Place the tools in the folders:
 
       C:\Program Files\Bitcoin\daemon
       C:\Program Files\Namecoin\daemon
@@ -74,17 +74,8 @@
 
   This Python script automates the process of importing private keys from 
   legacy Berkeley DB (BDB) wallets in Bitcoin and Namecoin Core (stored line by line in the 
-  'privkeys.txt') into modern descriptor wallets in Bitcoin and Namecoin Core.
-
-  Supported Key Types:
-  ---------------------
-  1. Bech32/SegWit Single-Key Private Keys:
-     - Use the default descriptor 'wpkh(%%k)' (Witness Public Key Hash) for importing 
-       single-key Bech32/SegWit addresses (starting with 'nc1...').
-
-  2. Base58Check Legacy Single-Key Private Keys:
-     - For private keys from single-key legacy addresses (Base58Check encoded), 
-       modify the descriptor to 'pkh(%%k)' (Public Key Hash) at line 15.
+  'privkeys.txt') into modern descriptor wallets in Bitcoin and Namecoin Core. It automatically
+  detects the key type for the Bitcoin and Namecoin mainnet (Bech32 or Base58Check).
 
   Additional Notes:
   -----------------
@@ -93,7 +84,7 @@
     'Dump_privkeys.py' or via the RPC command 'dumpprivkey'.
   - Ensure the wallet is unlocked if encrypted.
   - All descriptors are imported in batches of 50 descriptors, otherwise larger 
-    wallets might exceed the maximum command size.
+    wallets might exceed the maximum command size in DOS.
   - Wait at least 15 blocks (two hours) after your last wallet transactions to avoid 
     a rescan of the most recent transactions during each batch import.
   - By default, a full blockchain rescan is initiated on the last import. Depending on
