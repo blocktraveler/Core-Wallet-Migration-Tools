@@ -1,4 +1,4 @@
-﻿﻿ ##################################################################################
+﻿ ##################################################################################
  ##                                                                              ##
  ##                        Core Wallet Migration Tools                           ##
  ##                                                                              ##
@@ -73,17 +73,8 @@
 
   This Python script automates the process of importing private keys from 
   legacy Berkeley DB (BDB) wallets in Bitcoin and Namecoin Core (stored line by line in the 
-  'privkeys.txt') into modern descriptor wallets in Bitcoin and Namecoin Core.
-
-  Supported Key Types:
-  ---------------------
-  1. Bech32/SegWit Single-Key Private Keys:
-     - Use the default descriptor 'wpkh(%%k)' (Witness Public Key Hash) for importing 
-       single-key Bech32/SegWit addresses (starting with 'nc1...').
-
-  2. Base58Check Legacy Single-Key Private Keys:
-     - For private keys from single-key legacy addresses (Base58Check encoded), 
-       modify the descriptor to 'pkh(%%k)' (Public Key Hash) at line 15.
+  'privkeys.txt') into modern descriptor wallets in Bitcoin and Namecoin Core. It automatically
+  detects the key type for the Bitcoin and Namecoin mainnet (Bech32 or Base58Check).
 
   Additional Notes:
   -----------------
@@ -116,5 +107,3 @@
   from its use or misuse!
   
 ====================================================================================
-
-
