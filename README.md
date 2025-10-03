@@ -93,7 +93,7 @@
     'Dump_privkeys.py' or via the RPC command 'dumpprivkey'.
   - Ensure the wallet is unlocked if encrypted.
   - All descriptors are imported in batches of 50 descriptors, otherwise larger 
-    wallets might exceed the maximum command size in DOS.
+    wallets might exceed the maximum command size.
   - Wait at least 15 blocks (two hours) after your last wallet transactions to avoid 
     a rescan of the most recent transactions during each batch import.
   - By default, a full blockchain rescan is initiated on the last import. Depending on
