@@ -1,7 +1,7 @@
 
- #                        Core Wallet Migration Tools
+ #						Core Wallet Migration Tools
 
- ##          Website: www.namecoin.pro | Web3 ID: https://dotbit.app
+ ##		  Website: www.namecoin.pro | Web3 ID: https://dotbit.app
 
 ---
 
@@ -13,8 +13,8 @@
   private keys from legacy Berkeley DB (BDB) wallets to modern descriptor wallets 
   in Bitcoin and Namecoin Core. Place the tools in the folders (e.g. on Windows):
 
-      C:\Program Files\Bitcoin\daemon
-      C:\Program Files\Namecoin\daemon
+	  C:\Program Files\Bitcoin\daemon
+	  C:\Program Files\Namecoin\daemon
  
   On-chain archive:
   -----------------
@@ -27,8 +27,34 @@
 
   Prerequisites:
   -----------------
-  Download and install Python from [python.org](https://www.python.org/downloads/).
+  * Download and install Python from [python.org](https://www.python.org/downloads/).
+  * Configure RPC credentials
 
+	On a fresh installation create (otherwise edit) the file `bitcoin.conf` (for Bitcoin) resp.
+	`namecoin.conf` (for Namecoin) in the data directory with minimal content to be used on the local machine:
+
+		server=1
+		rpcallowip=127.0.0.1
+		rpcbind=127.0.0.1
+
+	This minimal configuration uses cookie authentication. Data directory locations (e.g. for Namecoin):
+
+		Windows:
+		_______
+
+			%AppData%\Namecoin
+
+
+		macOS (enable visibility with 'command chflags nohidden ~/Library' in the terminal before):
+		___________________________________________________________________________________________
+
+			~/Library/Application Support/Namecoin/
+
+
+		Linux:
+		______
+
+			$HOME/.namecoin/
 ---
 
 ##  Dump_privkeys.py
@@ -42,9 +68,9 @@
   Known Issues (Namecoin only):
   -----------------------------
   - If two or more consecutive name updates to different addresses were made at the same block,
-    the 'name_list' RPC command will incorrectly output the first (invalid) private key.
-    In such cases:
-      - Manually export the correct private key using the 'dumpprivkey' RPC command.
+	the 'name_list' RPC command will incorrectly output the first (invalid) private key.
+	In such cases:
+	  - Manually export the correct private key using the 'dumpprivkey' RPC command.
 
   Prerequisites:
   --------------
@@ -57,9 +83,9 @@
   Notes:
   ------
   - The extracted private keys should be handled with extreme caution.
-    Never share or expose them, as they grant access to your funds and assets!
+	Never share or expose them, as they grant access to your funds and assets!
   - This script does not modify wallet data; it only exports private keys for 
-    backup and migration purposes.
+	backup and migration purposes.
 
   Output:
   -------
@@ -81,19 +107,19 @@
   -----------------
   - Define Bitcoin or Namecoin Core (bitcoin-cli or namecoin-cli) at line 13.
   - Private keys must be exported from BDB wallets in Bitcoin or Namecoin Core using 
-    'Dump_privkeys.py' or via the RPC command 'dumpprivkey'.
+	'Dump_privkeys.py' or via the RPC command 'dumpprivkey'.
   - Ensure the wallet is unlocked if encrypted.
   - All descriptors are imported in batches of 50 descriptors, otherwise larger 
-    wallets might exceed the maximum command size.
+	wallets might exceed the maximum command size.
   - Wait at least 15 blocks (two hours) after your last wallet transactions to avoid 
-    a rescan of the most recent transactions during each batch import.
+	a rescan of the most recent transactions during each batch import.
   - By default, a full blockchain rescan is initiated on the last import. Depending on
-    the size of your wallet, this may cause a timeout error on the last import, which
-    can be ignored as it won't affect a successful import.
+	the size of your wallet, this may cause a timeout error on the last import, which
+	can be ignored as it won't affect a successful import.
   - Set Unix timestamp at line 15 e.g. to 1356998400 for Jan 1, 2013 (or to the
-    timestamp of your last import), dependent on the age of the asset to import.
+	timestamp of your last import), dependent on the age of the asset to import.
   - For multi-signature addresses (both legacy and Bech32), modifications to the 
-    script are required.
+	script are required.
 
 ---
 
