@@ -35,6 +35,7 @@
 		server=1
 		rpcallowip=127.0.0.1
 		rpcbind=127.0.0.1
+		rpccookiefile=.\.cookie
 
 	This minimal configuration uses cookie authentication. Data directory locations (e.g. for Namecoin):
 
@@ -134,3 +135,4 @@
   from its use or misuse!
   
 ====================================================================================
+
