@@ -30,15 +30,18 @@
   * Configure RPC credentials
 
 	On a fresh installation create (otherwise edit) the file "bitcoin.conf" (for Bitcoin) resp.
-    "namecoin.conf" (for Namecoin) in the data directory package with minimal content:
+    "namecoin.conf" (for Namecoin) in the data directory with minimal content:
 
 		server=1
 		rpcallowip=127.0.0.1
 		rpcbind=127.0.0.1
 		rpccookiefile=.\.cookie
+        fallbackfee=0.0002
 
-	This minimal configuration uses cookie authentication to be used on the local machine. You can
-    also just copy the configuration file predefined in this package.
+    This minimal configuration uses cookie authentication to be used on the local machine. The
+    parameter "fallbackfee" is a recommended setting for the transaction fee calculation.
+    
+    You can also just copy the configuration file predefined in this package.
 
 	Data directory locations (e.g. for Namecoin):
 
