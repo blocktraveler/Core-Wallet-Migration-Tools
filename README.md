@@ -31,7 +31,7 @@
   * Configure RPC credentials
 
 	On a fresh installation create (otherwise edit) the file `bitcoin.conf` (for Bitcoin) resp.
-	`namecoin.conf` (for Namecoin) in the data directory package with minimal content:
+	`namecoin.conf` (for Namecoin) in the data directory with minimal content:
 
 		server=1
 		rpcallowip=127.0.0.1
