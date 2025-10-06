@@ -39,7 +39,8 @@
         fallbackfee=0.0002
 
     This minimal configuration uses cookie authentication to be used on the local machine. The
-    parameter "fallbackfee" is a recommended setting for the transaction fee calculation.
+    parameter "fallbackfee" is a recommended setting for the transaction fee calculation (value
+    '0.0002' NMC for Namecoin).
     
     You can also just copy the configuration file predefined in this package.
 
@@ -141,3 +142,4 @@
   from its use or misuse!
   
 ====================================================================================
+
